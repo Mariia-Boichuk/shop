@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import "./Pagination.scss";
 
@@ -13,7 +13,7 @@ const Pagination = ({
 }) => {
   const limit = searchParams.get("limit");
   const pageNumberParam = searchParams.get("pageNumber");
-
+  const [quantity, setQuantity] = useState(goodsPerPage);
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalGoods / goodsPerPage); i++) {
@@ -23,6 +23,7 @@ const Pagination = ({
   useEffect(() => {
     if (limit) {
       setGoodsPerPage(limit);
+      setQuantity(limit);
     }
 
     if (pageNumberParam) {
@@ -58,10 +59,16 @@ const Pagination = ({
         кількість товарів
         <input
           type="number"
-          value={goodsPerPage}
-          onChange={(e) => setGoodsPerPage(e.target.value)}
+          value={quantity}
+          onChange={(e) => setQuantity(e.target.value)}
         />
       </label>
+      <button
+        className="pagination__button"
+        onClick={() => setGoodsPerPage(quantity)}
+      >
+        показати
+      </button>
     </nav>
   );
 };
