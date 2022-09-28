@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import "./Pagination.scss";
 
 const Pagination = ({
@@ -6,12 +8,34 @@ const Pagination = ({
   totalGoods,
   setGoodsPerPage,
   currentPage,
+  searchParams,
+  setSearchParams,
 }) => {
+  const limit = searchParams.get("limit");
+  const pageNumberParam = searchParams.get("pageNumber");
+
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalGoods / goodsPerPage); i++) {
     pageNumbers.push(i);
   }
+
+  useEffect(() => {
+    if (limit) {
+      setGoodsPerPage(limit);
+    }
+
+    if (pageNumberParam) {
+      setCurrentPage(pageNumberParam);
+    }
+  }, []);
+
+  useEffect(() => {
+    searchParams.set("limit", goodsPerPage);
+    searchParams.set("pageNumber", currentPage);
+
+    setSearchParams(searchParams);
+  }, [currentPage, goodsPerPage]);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (

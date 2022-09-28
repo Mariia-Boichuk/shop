@@ -1,17 +1,16 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { stringifyParams } from "../../api/stringifyParams";
 import { useSearchParams } from "react-router-dom";
-import Card from "../Card/Card";
+import { stringifyParams } from "../../api/stringifyParams";
 
+import Card from "../Card/Card";
 import LayoutFilter from "../LayoutFilter/LayoutFilter";
 import CategoryFilter from "../CategoryFilter/CategoryFilter";
-
-import "./Products.scss";
 import Pagination from "../Pagination/Pagination";
 
+import "./Products.scss";
+
 const Products = () => {
-  console.log("prod");
   const [searchParams, setSearchParams] = useSearchParams();
   const columnsParam = searchParams.get("columns");
   const category = searchParams.get("category");
@@ -43,6 +42,8 @@ const Products = () => {
 
   useEffect(() => {
     searchParams.set("category", currentFilter);
+
+    setCurrentPage(1);
     setSearchParams(searchParams);
 
     const requestParams = stringifyParams({ category: currentFilter });
@@ -50,9 +51,11 @@ const Products = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
+
         const goodsInfo = await Axios.get(
           `https://fakestoreapi.com/products${requestParams}`
         );
+
         setGoods(goodsInfo.data);
         setLoading(false);
       } catch (error) {
@@ -69,7 +72,7 @@ const Products = () => {
   const currentGoods = goods.slice(indexOfFirstGoods, indexOfLastGoods);
 
   return error ? (
-    <p> {error}</p>
+    <p>{error}</p>
   ) : (
     <div className="container products__container">
       <Pagination
@@ -78,6 +81,8 @@ const Products = () => {
         totalGoods={goods?.length}
         setGoodsPerPage={setGoodsPerPage}
         currentPage={currentPage}
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
       />
       <LayoutFilter
         setNumOfColumns={setNumOfColumns}
