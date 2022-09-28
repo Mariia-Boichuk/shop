@@ -1,0 +1,28 @@
+.layout-filters {
+  align-self: flex-end;
+  display: flex;
+  margin-bottom: 30px;
+
+  div {
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+  }
+}
+
+svg {
+  color: #333;
+  width: 25px;
+  height: 25px;
+}
+
+.layout-filter--active {
+  background-color: #7f8be7;
+  border-radius: 4px;
+}
+
+@media screen and (max-width: 576px) {
+  .layout-filters {
+    display: none;
+  }
+}

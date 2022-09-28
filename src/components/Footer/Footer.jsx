@@ -1,11 +1,13 @@
 import React from "react";
-
+import logo from "../../assets/images/logo-light.svg";
 import "./Footer.scss";
 
 const Footer = () => {
   return (
     <div className="footer">
-      <img src="./assets/images/logo-light.svg" alt="logo" />
+      <div className="container">
+        <img src={logo} alt="logo" />
+      </div>
     </div>
   );
 };

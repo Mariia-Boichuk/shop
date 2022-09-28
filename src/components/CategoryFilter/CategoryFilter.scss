@@ -1,0 +1,22 @@
+.filters {
+  flex-shrink: 0;
+  margin-right: 120px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  li {
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .filters {
+    margin: 0 0 25px;
+  }
+}

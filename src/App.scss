@@ -6,11 +6,15 @@
 
 .content {
   flex-grow: 1;
+  padding: 50px 15px 90px;
 }
 
 .bold-text {
   font-weight: 600;
 }
 
-.p-text {
+.container {
+  margin: 0 auto;
+  max-width: 1365px;
+  width: 100%;
 }
