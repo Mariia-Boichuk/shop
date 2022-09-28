@@ -1,0 +1,37 @@
+.nav {
+  align-self: flex-end;
+  display: flex;
+
+  input {
+    height: 25px;
+    width: 35px;
+    margin: 0 7px;
+    font-size: 18px;
+  }
+}
+
+.label {
+  font-size: 20px;
+  font-family: inherit;
+}
+
+.pagination {
+  display: flex;
+  margin-bottom: 10px;
+  border-radius: 6px;
+
+  font-size: 18px;
+}
+
+.pagination__page-number {
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  margin-right: 5px;
+  border-radius: 50%;
+  background-color: lightgray;
+}
+
+.pagination__page-number--active {
+  background-color: #7f8be7;
+}

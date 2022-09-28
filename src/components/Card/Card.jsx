@@ -4,12 +4,13 @@ import { FiHeart } from "react-icons/fi";
 import "./Card.scss";
 
 const Card = ({ goodInfo, numOfColumns, likedIds, setLikedIds }) => {
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(
+    likedIds?.includes(goodInfo.id) || false
+  );
 
   useEffect(() => {
     if (likedIds) {
       setIsLiked(likedIds.includes(goodInfo.id));
-      setLikedIds(likedIds);
     }
   }, []);
 

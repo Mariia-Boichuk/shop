@@ -8,24 +8,36 @@ import LayoutFilter from "../LayoutFilter/LayoutFilter";
 import CategoryFilter from "../CategoryFilter/CategoryFilter";
 
 import "./Products.scss";
+import Pagination from "../Pagination/Pagination";
 
 const Products = () => {
   console.log("prod");
   const [searchParams, setSearchParams] = useSearchParams();
-  const category = searchParams.get("category");
   const columnsParam = searchParams.get("columns");
+  const category = searchParams.get("category");
 
-  const [currentFilter, setCurrentFilter] = useState(category || "all");
+  const [currentFilter, setCurrentFilter] = useState("all");
   const [goods, setGoods] = useState([]);
   const [error, setError] = useState("");
-  const [numOfColumns, setNumOfColumns] = useState(columnsParam == 2 ? 2 : 4);
+  const [numOfColumns, setNumOfColumns] = useState(4);
   const [loading, setLoading] = useState(false);
   const [likedIds, setLikedIds] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [goodsPerPage, setGoodsPerPage] = useState(4);
 
   useEffect(() => {
     const localLikes = JSON.parse(localStorage.getItem("likedProductsIds"));
     if (localLikes) {
       setLikedIds(localLikes);
+    }
+
+    if (columnsParam == 2) {
+      setNumOfColumns(2);
+    }
+
+    if (category) {
+      setCurrentFilter(category);
     }
   }, []);
 
@@ -50,12 +62,23 @@ const Products = () => {
     };
 
     fetchData();
-  }, [currentFilter, searchParams, setSearchParams]);
+  }, [currentFilter]);
+
+  const indexOfLastGoods = currentPage * goodsPerPage;
+  const indexOfFirstGoods = indexOfLastGoods - goodsPerPage;
+  const currentGoods = goods.slice(indexOfFirstGoods, indexOfLastGoods);
 
   return error ? (
     <p> {error}</p>
   ) : (
     <div className="container products__container">
+      <Pagination
+        goodsPerPage={goodsPerPage}
+        setCurrentPage={setCurrentPage}
+        totalGoods={goods?.length}
+        setGoodsPerPage={setGoodsPerPage}
+        currentPage={currentPage}
+      />
       <LayoutFilter
         setNumOfColumns={setNumOfColumns}
         searchParams={searchParams}
@@ -73,15 +96,19 @@ const Products = () => {
             numOfColumns === 2 ? "products__2columns" : ""
           }`}
         >
-          {goods?.map((item) => (
-            <Card
-              goodInfo={item}
-              key={item.id}
-              numOfColumns={numOfColumns}
-              likedIds={likedIds}
-              setLikedIds={setLikedIds}
-            />
-          ))}
+          {loading ? (
+            <p>loading products...</p>
+          ) : (
+            currentGoods?.map((item) => (
+              <Card
+                goodInfo={item}
+                key={item.id}
+                numOfColumns={numOfColumns}
+                likedIds={likedIds}
+                setLikedIds={setLikedIds}
+              />
+            ))
+          )}
         </ul>
       </div>
     </div>

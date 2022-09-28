@@ -12,6 +12,7 @@ const LayoutFilter = ({
 }) => {
   useEffect(() => {
     searchParams.set("columns", numOfColumns);
+
     setSearchParams(searchParams);
   }, [numOfColumns, searchParams, setSearchParams]);
 
